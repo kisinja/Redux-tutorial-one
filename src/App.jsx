@@ -1,23 +1,18 @@
-import React, { useState } from "react";
 import DisplayCount from "./components/DisplayCount";
 import CheckWhetherCountIsThere from "./components/CheckWhetherCountIsThere";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  increment,
+  decrement,
+  reset,
+  incrementByAmount,
+} from "./slices/counterSlice";
 
 const App = () => {
-  const [count, setCount] = useState(0);
   // let count = 0;
+  const { count } = useSelector((state) => state.counter);
 
-  const increment = () => {
-    setCount(count + 1);
-    // count += 1;
-  };
-  const decrement = () => {
-    setCount(count - 1);
-    // count -= 1;
-  };
-  const reset = () => {
-    setCount(0);
-    // count = 0;
-  };
+  const dispatch = useDispatch();
 
   return (
     <div className="container mx-auto bg-white shadow py-6 px-8 rounded-lg">
@@ -25,30 +20,38 @@ const App = () => {
 
       <div>
         <DisplayCount count={count} />
-        {/* <CheckWhetherCountIsThere /> */}
+        <CheckWhetherCountIsThere />
       </div>
 
       <div className="flex justify-center items-center mt-6">
         {/* Increment Button */}
         <button
           className="bg-indigo-600 text-white py-2 px-4 rounded cursor-pointer hover:bg-indigo-700"
-          onClick={increment}
+          onClick={() => dispatch(increment())}
         >
           Increment
         </button>
         {/* Decrement Button */}
         <button
           className="bg-indigo-600 text-white py-2 px-4 rounded cursor-pointer hover:bg-indigo-700"
-          onClick={decrement}
+          onClick={() => dispatch(decrement())}
         >
           Decrement
         </button>
         {/* Increment Button */}
         <button
           className="bg-red-600 text-white py-2 px-4 rounded cursor-pointer hover:bg-red-700"
-          onClick={reset}
+          onClick={() => dispatch(reset())}
         >
           Reset
+        </button>
+
+        {/* Increment by Amount Button */}
+        <button
+          className="bg-green-600 text-white py-2 px-4 rounded cursor-pointer hover:bg-green-700"
+          onClick={() => dispatch(incrementByAmount(5))}
+        >
+          Increment by 5
         </button>
       </div>
     </div>
